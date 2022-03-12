@@ -1,0 +1,25 @@
+{
+    "name": "mathaus/laravel-fast-api",
+    "description": "CREATE YOUR REST API LIGHTNING FAST",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mathaus",
+            "email": "mathaus.aquicob@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mathaus\\LaravelFastApi\\FastApiServiceProvider"
+            ]
+        }
+    },
+    "autoload" : {
+        "psr-4": {
+            "Mathaus\\LaravelFastApi\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
