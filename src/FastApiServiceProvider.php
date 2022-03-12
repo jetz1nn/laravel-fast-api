@@ -9,7 +9,6 @@ class FastApiServiceProvider extends ServiceProvider {
 
     public function boot() {
     }
-//teste
 
     public function register() {
 
