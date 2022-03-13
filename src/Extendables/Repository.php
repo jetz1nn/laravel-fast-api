@@ -23,8 +23,10 @@ abstract class Repository {
 
     }
 
-    public function find(int $id) {
-        return $this->model->find($id);
+    public function find(int $id, array $relationships = []) {
+        $this->query = $this->model->newQuery();
+        $this->query->with($relationships);
+        return  $this->query->find($id);
     }
 
     public function findMany(array $filters, array $relationships = []) {
@@ -70,7 +72,6 @@ abstract class Repository {
                 continue;
             }
 
-
             $this->query->where($filter_name, "=", $filter_value);
 
         }
@@ -78,5 +79,24 @@ abstract class Repository {
 
     public function getTableName() {
         return with(new $this->model)->getTable();
+    }
+
+
+    public function destroy(int $id) {
+        return $this->model::destroy($id);
+    }
+
+    public function storeOrUpdate(array $data, $id = null) {
+
+        if(is_null($id)) {
+            $model = new ($this->model);
+        } else {
+            $model = $this->model->find($id);
+        }
+
+        $model->fill($data);
+
+        return $model->save();
+
     }
 }
