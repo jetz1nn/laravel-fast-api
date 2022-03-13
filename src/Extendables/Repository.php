@@ -66,14 +66,12 @@ abstract class Repository {
             }
 
             if (in_array($filter, $this->in_filter)) {
-                $this->query->whereIn($filter_name, "<=", $filter_value);
+                $this->query->whereIn($filter_name, $filter_value);
                 continue;
             }
 
-            if ()
 
-
-                $this->query->where($filter_name, "=", $filter_value);
+            $this->query->where($filter_name, "=", $filter_value);
 
         }
     }
