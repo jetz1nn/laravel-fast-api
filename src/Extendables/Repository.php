@@ -49,20 +49,20 @@ abstract class Repository {
     public function applyFilters(array $filters) {
         dump($this->filter_map, array_keys($this->filter_map));
         foreach ($filters as $filter => $filter_value) {
-            dump(in_array($filter, array_keys($this->filter_map)), $this->filter_map[$filter], $filter);
+
             $filter_name = in_array($filter, array_keys($this->filter_map)) ? $this->filter_map[$filter] : $filter;
 
             if (in_array($filter, $this->bigger_equal)) {
-                $this->query->where($this->filter_map[$filter], ">=", $filter_value);
+                $this->query->where($filter_name, ">=", $filter_value);
                 continue;
             }
 
             if (in_array($filter, $this->less_equal)) {
-                $this->query->where($this->filter_map[$filter], "<=", $filter_value);
+                $this->query->where($filter_name, "<=", $filter_value);
                 continue;
             }
 
-            $this->query->where($filter, "=", $filter_value);
+            $this->query->where($filter_name, "=", $filter_value);
 
         }
     }
