@@ -47,8 +47,9 @@ abstract class Repository {
     }
 
     public function applyFilters(array $filters) {
-        dump($this->bigger_equal, $this->less_equal);
         foreach ($filters as $filter => $filter_value) {
+
+            $filter_name = array_key_exists($filter, $this->filter_map) ? $this->filter_map[$filter] : $filter;
 
             if (in_array($filter, $this->bigger_equal)) {
                 $this->query->where($this->filter_map[$filter], ">=", $filter_value);
