@@ -47,7 +47,7 @@ abstract class Repository {
     }
 
     public function applyFilters(array $filters) {
-
+        dump($this->bigger_equal, $this->less_equal);
         foreach ($filters as $filter => $filter_value) {
 
             if (in_array($filter, $this->bigger_equal)) {
