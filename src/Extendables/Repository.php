@@ -12,6 +12,8 @@ abstract class Repository {
     protected $filter_map = [];
     protected $bigger_equal = [];
     protected $less_equal = [];
+    protected $in_filter = [];
+
 
     public function __construct(Model $model) {
         $this->model = $model;
@@ -47,10 +49,11 @@ abstract class Repository {
     }
 
     public function applyFilters(array $filters) {
-        dump($this->filter_map, array_keys($this->filter_map));
         foreach ($filters as $filter => $filter_value) {
 
-            $filter_name = in_array($filter, array_keys($this->filter_map)) ? $this->filter_map[$filter] : $filter;
+            $filter_name = in_array($filter, array_keys($this->filter_map)) ? $this->getTableName() . "." .
+                $this->filter_map[$filter] :
+                $this->getTableName() . "." . $filter;
 
             if (in_array($filter, $this->bigger_equal)) {
                 $this->query->where($filter_name, ">=", $filter_value);
@@ -62,10 +65,20 @@ abstract class Repository {
                 continue;
             }
 
-            $this->query->where($filter_name, "=", $filter_value);
+            if (in_array($filter, $this->in_filter)) {
+                $this->query->whereIn($filter_name, "<=", $filter_value);
+                continue;
+            }
+
+            if ()
+
+
+                $this->query->where($filter_name, "=", $filter_value);
 
         }
     }
 
-
+    public function getTableName() {
+        return with(new $this->model)->getTable();
+    }
 }
