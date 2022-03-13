@@ -9,9 +9,9 @@ abstract class Repository {
     private $model;
     private $query;
 
-    private array $filter_map = [];
-    private array $bigger_equal = [];
-    private array $less_equal = [];
+    protected $filter_map = [];
+    protected $bigger_equal = [];
+    protected $less_equal = [];
 
     public function __construct(Model $model) {
         $this->model = $model;
