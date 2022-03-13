@@ -47,6 +47,7 @@ abstract class Repository {
     }
 
     public function applyFilters(array $filters) {
+        dump($this->filter_map);
         foreach ($filters as $filter => $filter_value) {
 
             $filter_name = array_key_exists($filter, $this->filter_map) ? $this->filter_map[$filter] : $filter;
