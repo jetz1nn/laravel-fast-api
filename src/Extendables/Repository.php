@@ -33,6 +33,17 @@ abstract class Repository {
 
         return $this->query->get();
 
+
+    }
+
+    public function dd(array $filters, array $relationships = []) {
+        $this->query = $this->model->newQuery();
+        $this->query->with($relationships);
+        $this->applyFilters($filters);
+        $this->applyCustomFilters($filters);
+
+        return $this->query->dd();
+
     }
 
     public function applyFilters(array $filters) {
