@@ -26,7 +26,7 @@ abstract class Repository {
     public function find(int $id, array $relationships = []) {
         $this->query = $this->model->newQuery();
         $this->query->with($relationships);
-        return  $this->query->find($id);
+        return $this->query->find($id);
     }
 
     public function findMany(array $filters, array $relationships = []) {
@@ -51,6 +51,7 @@ abstract class Repository {
     }
 
     public function applyFilters(array $filters) {
+
         foreach ($filters as $filter => $filter_value) {
 
             $filter_name = in_array($filter, array_keys($this->filter_map)) ? $this->getTableName() . "." .
@@ -88,7 +89,7 @@ abstract class Repository {
 
     public function storeOrUpdate(array $data, $id = null) {
 
-        if(is_null($id)) {
+        if (is_null($id)) {
             $model = new ($this->model);
         } else {
             $model = $this->model->find($id);
@@ -96,7 +97,8 @@ abstract class Repository {
 
         $model->fill($data);
 
-        return $model->save();
+        $model->save();
 
+        return $model;
     }
 }
