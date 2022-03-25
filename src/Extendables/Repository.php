@@ -3,6 +3,7 @@
 namespace Mathaus\LaravelFastApi\Extendables;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
 abstract class Repository {
 
@@ -23,13 +24,18 @@ abstract class Repository {
 
     }
 
+    public function filterExists($filter): bool {
+        return in_array($filter, array_keys($this->filter_map)) ||
+            in_array($filter, Schema::getColumnListing($this->model->getTable()));
+    }
+
     public function find(int $id, array $relationships = []) {
         $this->query = $this->model->newQuery();
         $this->query->with($relationships);
         return $this->query->find($id);
     }
 
-    public function findMany(array $filters, array $relationships = []) {
+    public function findMany(array $filters = [], array $relationships = []) {
         $this->query = $this->model->newQuery();
         $this->query->with($relationships);
         $this->applyFilters($filters);
@@ -53,6 +59,10 @@ abstract class Repository {
     public function applyFilters(array $filters) {
 
         foreach ($filters as $filter => $filter_value) {
+
+            if (!$this->filterExists($filter)) {
+                continue;
+            }
 
             $filter_name = in_array($filter, array_keys($this->filter_map)) ? $this->getTableName() . "." .
                 $this->filter_map[$filter] :
